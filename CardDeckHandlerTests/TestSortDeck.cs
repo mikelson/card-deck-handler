@@ -56,10 +56,23 @@ namespace ShiftwiseCardDeckHandlerTests
             TestComparison(CompareAlphabeticSuitAcesHigh);
         }
 
+        [TestMethod]
+        public void ShuffledDecks()
+        {
+            var rng = new Random(0);
+            for (int i = 0; i < 100; i++)
+            {
+                TestComparison(CardDeckShuffler.Create(rng), CompareAlphabeticSuitAcesLow);
+            }
+        }
+
         private void TestComparison(Comparison<PlayingCard> comparison)
         {
-            var deck = PlayingCard.GetAllPossibleCards().ToList();
+            TestComparison(PlayingCard.GetAllPossibleCards().ToList(), comparison);
+        }
 
+        private void TestComparison(List<PlayingCard> deck, Comparison<PlayingCard> comparison)
+        {
             CardDeckSorter.Sort(deck, comparison);
 
             // Make sure every pair of cards increases
